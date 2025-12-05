@@ -1,66 +1,89 @@
-# AntiRecourceStop
-🔐 'FiveM Advanced Anti-Dump & Resource Integrity System'
+🔐 FiveM Advanced Anti-Dump & Resource Integrity System
 
-A lightweight yet powerful server-side security module designed to detect and prevent common FiveM attack vectors: 'dumping', 'callback exploits', 'trigger abuse', and 'resource manipulation'. It combines dynamic client-side code injection with server-side validation and Discord webhook logging for clear, auditable alerts.
+A high-level server-side security framework designed to protect FiveM servers against dumpers, resource manipulation, trigger abuse, callback spoofing, and client-side tampering.
+It uses dynamic code delivery, live integrity monitoring, heartbeat validation, and Discord webhook reporting to keep your server transparent, traceable, and resistant to common exploit methods.
 
-✨ 'Key Features'
+✨ Features Overview
+🔸 Dynamic Two-Phase Code Injection
 
-'Dynamic Two-Step Code Loader'
-Sends two phases of runtime code to the client: a 'First Code' initializer and a 'Second Code' runtime monitor — raising the bar for static analysis and simple dumping attempts.
+The server sends security code to the client in two separate phases.
+This makes static dumping, reverse-engineering, and simple script extraction significantly harder.
 
-'Trigger & Callback Exploit Protection'
-Detects repeated/forged requests and fake ESX callbacks, and immediately removes players that attempt to manipulate or replay protected events.
+🔸 Trigger & Callback Exploit Defense
 
-'Live Resource State Scanner'
-Injected client code scans resources on a short interval (e.g. every 700ms) and reports non-'started' states back to the server for verification.
+Blocks:
+— Fake ESX callbacks
+— Replayed triggers
+— Multiple request attempts
+— Manipulation of the anti-dump process
+Any violation results in an immediate, logged server-side drop.
 
-'Cross-Player Consistency Check'
-Server compares resource reports against other random players to reduce false positives and confirm suspicious local manipulation.
+🔸 Real-Time Resource State Monitoring
 
-'Heartbeat / Freeze Detection'
-Clients emit a lightweight heartbeat; missed heartbeats indicate blocked threads or tampering and result in server actions.
+The client continuously scans all resources and reports any that are not in a started state.
+The server compares this data against other players to detect local tampering or hidden resources.
 
-'Discord Webhook Logging'
-All major events are logged to Discord with rich embeds: 'player drops', 'resource manipulation attempts', 'callback exploits', 'tampered execution', and 'heartbeat timeouts'. Logs include player name, Steam identifier (if available), server ID, reason, and timestamp.
+🔸 Heartbeat / Freeze Protection
 
-'Server-Side Validation First'
-Design principle: assume the client can lie. All trust decisions, comparisons, and punishments are evaluated server-side.
+A lightweight heartbeat system detects:
+— Thread blocking
+— Client freezes
+— Disabled security loops
+— Stopped anti-cheat code
+Missing heartbeats trigger an automatic removal.
 
-'ESX Compatible & Minimal'
-Plugs into ESX, no external libraries required, and minimal configuration (webhook URL). No unnecessary comments or bloat — production-ready and easy to audit.
+🔸 Full Discord Logging (Webhook)
 
-⚙️ 'How It Works (Overview)'
+All critical security events are reported to Discord with rich embeds:
+• Player kicks/drops
+• Resource manipulation alerts
+• Callback exploit detections
+• Tampering events
+• Heartbeat timeout warnings
+Each log includes player name, Steam identifier, server ID, reason, and timestamp.
 
-Server marks a player and sends the 'First Code' payload to create a secure callback flow.
+🔸 Server-Side First Design
 
-When the client requests the 'Second Code' via ESX callback, the server verifies request state and returns runtime monitoring code.
+The server never trusts client-side data.
+All critical checks, comparisons, and decisions occur strictly server-side.
 
-The injected monitor reports resource states and emits periodic heartbeats.
+🔸 Lightweight, Clean & ESX Compatible
 
-Server receives reports, cross-checks with other players, and logs suspicious activity to Discord.
+Fast to integrate, minimal configuration, and no external dependencies — just drop it into your server.
 
-Confirmed manipulation or tampering triggers a safe, logged 'DropPlayer' action.
+⚙️ How It Works
 
-📌 'Use Cases'
+Player requests the initial script from the server.
 
-Protect against mod menus and local resource hiding.
+Server verifies legitimacy and sends the first phase of the loader.
 
-Detect and respond to trigger/callback replay attacks.
+The client uses a secure callback to request phase two.
 
-Gain centralized visibility (Discord) into attempted server-side integrity breaches.
+Server validates this request and sends the monitoring code.
 
-Add a defensive layer without replacing a full anticheat solution.
+Client reports resource states and sends regular heartbeats.
 
-⚠️ 'Important Notes'
+Server validates reports, cross-checks players, and logs any issues.
 
-Client-side checks are inherently weaker than server-side checks; this system reduces attack surface but does not make clients fully trustworthy.
+Confirmed manipulation results in a clean, documented kick.
 
-Replace the webhook URL before publishing or use environment/config variables for secrets.
+📌 Ideal For
 
-Consider hardening: code obfuscation, server-side resource validation, and additional telemetry for higher-security environments.
+— Protecting server files from dumpers
+— Detecting stopped/hidden resources
+— Blocking trigger & callback spoofing
+— Monitoring suspicious client behavior
+— Strengthening your security layer without relying on a full anti-cheat
 
-✅ 'What You Get'
+🛡️ Security Notes
 
-A compact, auditable anti-dump pattern using 'dynamic loading', 'heartbeat', 'resource scanning', and 'Discord logging'.
+This system adds a strong barrier, but no client-side protection is perfect.
+For maximum protection, combine this with:
+• server-side validation
+• obfuscation
+• resource integrity checks
+• anti-cheat modules
 
-Clear logging and rational server logic that’s straightforward to extend or integrate into existing infrastructures.
+✅ Summary
+
+A polished, production-ready FiveM Anti-Dump framework combining dynamic injection, integrity monitoring, cross-player verification, heartbeat security, and Discord logging — designed to secure your server with speed, clarity, and transparency.
