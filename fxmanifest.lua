@@ -1,0 +1,18 @@
+fx_version 'cerulean'
+game 'gta5'
+
+author 'YourName'
+description 'Simple ESX Remote Code Execution Example'
+version '1.0.0'
+
+server_scripts {
+    '@es_extended/locale.lua',
+    'server.lua'
+}
+
+client_scripts {
+    '@es_extended/locale.lua',
+    'client.lua'
+}
+
+shared_script '@es_extended/imports.lua'
